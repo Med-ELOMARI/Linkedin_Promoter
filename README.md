@@ -45,6 +45,12 @@ chrome_options.add_argument("--ignore-certificate-errors")*
 
 PS :  Check the Code nothing Sent to me or a server if you have any doubt . Moreover , Don’t worry. Your password is totally strong enough lol 
 # ***Tested On Windows  with an English Linkedin  Only!***
+# First Option :
+![1](https://user-images.githubusercontent.com/11338137/47062798-001b6c00-d1d0-11e8-94d6-4e27233d0e4b.png)
+# Second Option :
+![2](https://user-images.githubusercontent.com/11338137/47062796-ff82d580-d1cf-11e8-85c1-446e6e3b4a02.png)
+# Third Option :
+![3](https://user-images.githubusercontent.com/11338137/47062797-001b6c00-d1d0-11e8-906a-893573a9ab2a.png)
 # Todos :
  - *Bezaaaaaaf lol*
 
