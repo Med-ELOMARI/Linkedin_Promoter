@@ -1,13 +1,13 @@
 # Linkedin Promoter 
 #### By MOHAMED EL OMARI - Venus-Dev
-Promote your linkedin Account with -Linkedin_Promoter- to enlarge your network - By :
-  - Mass Adding from section People you may know
+Promote your linkedin Account with -Linkedin Promoter- to enlarge your network - By :
+  - Mass Adding from section **"People you may know"**
   - Add By your own keywords and interest **YAAY !**
   - Withdraw All Sent Connections to start again (once you withdraw an invitation, you need to wait until 21 days again to re-invite that)
   - specifie how much you want to add 
 
 # Features !
-  - handle and skip the pop-up box asking to add a note
+  - Skip the pop-up box asking to add a note (Adding note will be added soon)
   - Login once by saving the session cookies ( Removed due to chrome and ChromeDriver version conflict )
 
 # Used Tech :
@@ -18,8 +18,7 @@ Promote your linkedin Account with -Linkedin_Promoter- to enlarge your network -
 ### - Python 2.7
 
 # Installation :
-
-Install the dependencies and devDependencies and start the server.
+Easy , just selenium
 ```cmd
  pip install selenium
 ```
@@ -32,16 +31,16 @@ python linkedin_Promoter.py -e YOUR_EMAIL -p YOUR_PASSWORD
 - Make sure to check if you're connected or not because There no Test are done by the script (This version ).
 - You can change the times of retry from **MAX_CLICK_TRIES** .
 - when you choose an option you can enter the maximum namber of accounts to add (Maybe more some times) .
-- in the second choice (**Add By your own keywords and interest**) you can type as much you want of keywords seprated by space  .
+- in the second choice (**Add By your own keywords and interest**) you can type as much you want of keywords seprated by a "+"  .
 - You can play around with these arguments like making it headless or changing loging level it's on your court now ;) : 
-- - *chrome_options.add_argument("--disable-logging")
-chrome_options.add_argument('log-level=3')
-chrome_options.add_argument("--headless")
-chrome_options.add_argument("--incognito")
-chrome_options.add_argument("--disable-extensions")
-chrome_options.add_argument("--disable-gpu")
-chrome_options.add_argument("--allow-running-insecure-content")
-chrome_options.add_argument("--ignore-certificate-errors")*
+    - chrome_options.add_argument("--disable-logging")
+    - chrome_options.add_argument('log-level=3')
+    - chrome_options.add_argument("--headless")
+    - chrome_options.add_argument("--incognito")
+    - chrome_options.add_argument("--disable-extensions")
+    - chrome_options.add_argument("--disable-gpu")
+    - chrome_options.add_argument("--allow-running-insecure-content")
+    - chrome_options.add_argument("--ignore-certificate-errors")*
 
 PS :  Check the Code nothing Sent to me or a server if you have any doubt . Moreover , Don’t worry. Your password is totally strong enough lol 
 # ***Tested On Windows  with an English Linkedin  Only!***
