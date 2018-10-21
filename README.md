@@ -1,5 +1,5 @@
 # Linkedin Promoter 
-#### By MOHAMED EL OMARI - Venus-Dev
+#### `By MOHAMED EL OMARI - Venus-Dev`
 Promote your linkedin Account with -Linkedin Promoter- to enlarge your network - By :
   - Mass Adding from section **"People you may know"**
   - Add By your own keywords and interest **YAAY !**
@@ -22,7 +22,7 @@ Easy , just selenium
 ```cmd
  pip install selenium
 ```
-And Download **ChromeDriver - WebDriver for Chrome** from [here] 
+And Download **ChromeDriver - WebDriver for Chrome** from [here]  
 Make sure to put the **ChromeDrive** next to the script and named *ChromeDriver.exe*
 # Usage :
 ```cmd
@@ -31,8 +31,8 @@ python linkedin_Promoter.py -e YOUR_EMAIL -p YOUR_PASSWORD
 - Make sure to check if you're connected or not because There no Test are done by the script (This version ).
 - You can change the times of retry from **MAX_CLICK_TRIES** .
 - when you choose an option you can enter the maximum namber of accounts to add (Maybe more some times) .
-- in the second choice (**Add By your own keywords and interest**) you can type as much you want of keywords seprated by a "+"  .
-- You can play around with these arguments like making it headless or changing loging level it's on your court now ;) : 
+- in the second choice (**Add By your own keywords and interest**) you can type as much you want of keywords seprated by a plus sign (+)  .
+- You can play around with these arguments like making it headless or changing loging level it's on your court now  : 
     - chrome_options.add_argument("--disable-logging")
     - chrome_options.add_argument('log-level=3')
     - chrome_options.add_argument("--headless")
