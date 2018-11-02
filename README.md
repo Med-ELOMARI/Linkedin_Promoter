@@ -1,6 +1,6 @@
 # Linkedin Promoter  - Without Linkedin REST API
 #### `By MOHAMED EL OMARI - Venus-Dev`
-######Without direct access to the Linkedin API or passsing through the review process and limitations .
+#### Without direct access to the Linkedin API or passsing through the review process and limitations .
 Promote your linkedin Account with -Linkedin Promoter- by enlarging your network - By :
   - Mass Adding from section **"People you may know"**
   - Add By your own keywords and interest **YAAY !**
