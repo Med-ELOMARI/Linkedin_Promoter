@@ -27,19 +27,6 @@ Element_button_in_search_result = Config.get("Elements","button_in_search_result
 Element_button_in_search_result_send = Config.get("Elements","button_in_search_result_send")
 
 
-def ConfigSectionMap(section):
-    dict1 = {}
-    options = Config.options(section)
-    for option in options:
-        try:
-            dict1[option] = Config.get(section, option)
-            if dict1[option] == -1:
-                print ("skip: %s" % option)
-        except:
-            print("exception on %s!" % option)
-            dict1[option] = None
-    return dict1
-
 def Get_Chrome_Options():
     """
     Load Chrome Option from Config.ini with a pythonic way ;)
@@ -56,6 +43,18 @@ def Get_Chrome_Options():
             chrome_options.add_argument("--{}".format(Option.replace("_", "-")))
     return chrome_options
 
+def ConfigSectionMap(section):
+    dict1 = {}
+    options = Config.options(section)
+    for option in options:
+        try:
+            dict1[option] = Config.get(section, option)
+            if dict1[option] == -1:
+                print ("skip: %s" % option)
+        except:
+            print("exception on %s!" % option)
+            dict1[option] = None
+    return dict1
 
 def click(by, what_to_click):
     """
@@ -294,7 +293,6 @@ def main():
     args = parser.parse_args()
 
     connect_to_linkedin(args.e, args.p)
-    # connect_to_linkedin("mohamed.elomari@outlook.com", "0641816309M")
     try:
         while True:
             menu()
