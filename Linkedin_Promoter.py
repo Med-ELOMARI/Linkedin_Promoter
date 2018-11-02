@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import ConfigParser
 import argparse
 import msvcrt as m
 import sys
@@ -8,47 +9,61 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 from selenium.webdriver.chrome.options import Options
 
+Config = ConfigParser.ConfigParser()
+print "[+] Loading Settings From Config.ini "
+Config.read("Config.ini")
+
 """
 Global parameters :
 """
-MAX_CLICK_TRIES = 3
+MAX_CLICK_TRIES = Config.getint("Global","max_click_tries")
 
-"""
-Parce user Data from the args 
-"""
-parser = argparse.ArgumentParser(add_help=True, description='Promote your linkedin Account by enlarging your network ')
-parser.add_argument('-e', type=str, help="your linkedin email .")
-parser.add_argument('-p', type=str, help="your linkedin password .")
-args = parser.parse_args()
-
-# TODO : Add those args to argparser and fix deafult command sets
-"""
-You can play around with these arguments like making it headless or changing loging level
-it's on your court now ;)
-"""
-chrome_options = Options()
-chrome_options.add_argument("--disable-logging")
-chrome_options.add_argument('log-level=3')
-# chrome_options.add_argument("--headless")
-# chrome_options.add_argument("--incognito")
-# chrome_options.add_argument("--disable-extensions")
-# chrome_options.add_argument("--disable-gpu")
-# chrome_options.add_argument("--allow-running-insecure-content")
-# chrome_options.add_argument("--ignore-certificate-errors")
+Element_account_card = Config.get("Elements","account_card")
+Element_name = Config.get("Elements","account_name")
+Element_Account_description = Config.get("Elements","account_description")
+Element_button_my_network = Config.get("Elements","button_my_network")
+Element_no_ressult_text = Config.get("Elements","no_ressult_text")
+Element_button_in_search_result = Config.get("Elements","button_in_search_result")
+Element_button_in_search_result_send = Config.get("Elements","button_in_search_result_send")
 
 
-print "[+] Starting Browser ...",
-driver = webdriver.Chrome('ChromeDriver', chrome_options=chrome_options)
-print " OK"
+def ConfigSectionMap(section):
+    dict1 = {}
+    options = Config.options(section)
+    for option in options:
+        try:
+            dict1[option] = Config.get(section, option)
+            if dict1[option] == -1:
+                print ("skip: %s" % option)
+        except:
+            print("exception on %s!" % option)
+            dict1[option] = None
+    return dict1
+
+def Get_Chrome_Options():
+    """
+    Load Chrome Option from Config.ini with a pythonic way ;)
+    :return:
+    """
+    chrome_options = Options()
+    for Option in ConfigSectionMap("Chrome_Options"):
+        if Option in ['log_level']:
+            chrome_options.add_argument('log-level={}'.format(ConfigSectionMap("Chrome_Options")['log_level']))
+            continue
+        # print Option
+        if Config.getboolean("Chrome_Options", Option):
+            print "Activating Option : {}".format(Option.replace("_", "-"))
+            chrome_options.add_argument("--{}".format(Option.replace("_", "-")))
+    return chrome_options
 
 
 def click(by, what_to_click):
     """
-    this function Click on elements "what_to_click" by the "by" argument
-    and makes MAX_CLICK_TRIES Tries
-
-    :param by: how to search ... by class or xpath ...
-    :param what_to_click: what to element you want to click
+    # this function Click on elements "what_to_click" by the "by" argument
+    # and makes MAX_CLICK_TRIES Tries
+    #
+    # :param by: how to search ... by class or xpath ...
+    # :param what_to_click: what to element you want to click
     """
     clicked = False
     tries = 0
@@ -88,9 +103,11 @@ def scrap_accounts(max):
     """
     accounts = []
     while len(accounts) <= max:
-        accounts = driver.find_elements_by_class_name("mn-pymk-list__card ")
+        accounts = driver.find_elements_by_class_name(Element_account_card)
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        print "[+] Found ", len(accounts), " Accounts - Scroling ..."
+        print "[+] Found ", len(accounts), " Accounts - Scroling ...", "\r",
+        sys.stdout.flush()
+
     return accounts
 
 
@@ -104,19 +121,23 @@ def connect_to_my_network(accounts):
     print "[+] Start Connecting ..."
     Connected = 0
     for acc in accounts:
-        name, info = acc.find_element_by_class_name("pymk-card__name"), acc.find_element_by_class_name(
-            "pymk-card__occupation")
         try:
-            print "[+] Found ", name.text, "    | ", info.text, " => Adding ...",
+            name, info = acc.find_element_by_class_name(
+                Element_name), acc.find_element_by_class_name(
+                Element_Account_description)
+            print "[+] Found ", name.text, " | ", info.text, " => Adding ...",
         except UnicodeEncodeError:
             pass
+        except NoSuchElementException:
+            print "[+] Can't find Name Or info of this Contact !"
         try:
-            acc.find_element_by_class_name("button-secondary-small").click()
+            sleep(0.5)
+            acc.find_element_by_class_name(Element_button_my_network).click()
             Connected += 1
         except:
-            print "Error : ", sys.exc_info(), " Next"
+            print "Error :  Next ."
         finally:
-            print  "Ok"
+            print  "Ok."
     print "[+] Total Connected :", Connected
 
 
@@ -130,21 +151,39 @@ def connect_by_keywords(keywords, max):
     """
     for word in keywords:
         print "[+] Working On Keyword :", word, " ..."
-        added = 0
-        for i in xrange(1, (max / 10) + 1):
-            driver.get("https://www.linkedin.com/search/results/all/?keywords=" + word + "&page=" + str(i))
+        page, added = 1, 0
+        while added < max:
+            print  "[+] Page : ", page, "." * page
+            driver.get("https://www.linkedin.com/search/results/people/?keywords=" + word + "&page=" + str(page))
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            for Connect in driver.find_elements_by_class_name("button-secondary-medium"):
-                # print "clicking :", Connect.text
-                driver.execute_script("arguments[0].click();", Connect)
-                added += 1
-                print "[+] ", added, " Added !"
-                # Connect.click()
-                try:
-                    click("class", "button-primary-large")
-                except NoSuchElementException:
-                    print "Add note notification ! Skipping ..."
-                added += 1
+            sleep(0.2)
+            try:
+                if "No results found" in driver.find_element_by_class_name(Element_no_ressult_text).text:
+                    break
+            except NoSuchElementException:
+                pass
+            Accounts = driver.find_elements_by_class_name(Element_button_in_search_result)
+            States = []
+            for i in Accounts:
+                States += [i.text]
+            print "[+] Found ", len(Accounts), " Accounts On this Page "
+            print "          - ", str(States.count("Message")), " - ALready Added"
+            print "          - ", str(States.count("Connect")), " - Can Connect With"
+            # print "          - ",str(States.count("Follow"))," - To Follow"
+
+            for Connect in Accounts:
+                if "Connect" in Connect.text:
+                    driver.execute_script("arguments[0].click();", Connect)
+                    sleep(0.2)
+                    try:
+                        click("class", "button-primary-large")
+                        added += 1
+                        print "[+] ", added, " invite Sent !"
+                    except:
+                        print "Add Note Notification ! Skipping by \"send Now\"..."
+                        continue
+            page += 1
+
         print "[+] Congrats ! you Added ", added, "Connection with Keyword", word
 
 
@@ -225,24 +264,37 @@ def menu():
         keywords = raw_input("[+] Please Enter your Keywords separated by '+' :").split("+")
         max_accounts = input("[+] Enter Max accounts to scrap (ex :100):")
         connect_by_keywords(keywords, max_accounts)
+        return
 
-    else:
         print "!" * 80
         print "[+] ALERT !! : once you withdraw an invitation, you need to wait until 21 days again to re-invite that " \
               "person  ! "
         print  "!" * 80
         print "[!] Press Enter to Continue"
         Confirm()
+        print "[!] Are you Sure !! , if So Press Enter to Continue "
+        Confirm()
         withdraw_all()
 
 
 def main():
     """
-    main
+    Parcing the COnfig data and doing the main tasks
     :return:
     """
-    connect_to_linkedin(args.e, args.p)
+    """
+    Parce user Data from the args 
+    """
 
+
+    parser = argparse.ArgumentParser(add_help=True,
+                                     description='Promote your linkedin Account by enlarging your network ')
+    parser.add_argument('-e', type=str, help="your linkedin email .")
+    parser.add_argument('-p', type=str, help="your linkedin password .")
+    args = parser.parse_args()
+
+    connect_to_linkedin(args.e, args.p)
+    # connect_to_linkedin("mohamed.elomari@outlook.com", "0641816309M")
     try:
         while True:
             menu()
@@ -252,6 +304,10 @@ def main():
     except WebDriverException:
         print "Selenuim Error ! ", sys.exc_info()
 
+
+print "[+] Starting Browser ...",
+driver = webdriver.Chrome('ChromeDriver', chrome_options=Get_Chrome_Options())
+print " OK"
 
 if __name__ == '__main__':
     main()

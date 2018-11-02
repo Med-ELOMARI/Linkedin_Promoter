@@ -1,6 +1,7 @@
-# Linkedin Promoter 
+# Linkedin Promoter  - Without Linkedin REST API
 #### `By MOHAMED EL OMARI - Venus-Dev`
-Promote your linkedin Account with -Linkedin Promoter- to enlarge your network - By :
+######Without direct access to the Linkedin API or passsing through the review process and limitations .
+Promote your linkedin Account with -Linkedin Promoter- by enlarging your network - By :
   - Mass Adding from section **"People you may know"**
   - Add By your own keywords and interest **YAAY !**
   - Withdraw All Sent Connections to start again (once you withdraw an invitation, you need to wait until 21 days again to re-invite that)
@@ -9,6 +10,7 @@ Promote your linkedin Account with -Linkedin Promoter- to enlarge your network -
 # Features !
   - Skip the pop-up box asking to add a note (Adding note will be added soon)
   - Login once by saving the session cookies ( Removed due to chrome and ChromeDriver version conflict )
+  - Added Config file for more Control 
 
 # Used Tech :
 ### - Selenium
@@ -30,26 +32,20 @@ python linkedin_Promoter.py -e YOUR_EMAIL -p YOUR_PASSWORD
 ```
 - Make sure to check if you're connected or not because There no Test are done by the script (This version ).
 - You can change the times of retry from **MAX_CLICK_TRIES** .
-- when you choose an option you can enter the maximum namber of accounts to add (Maybe more some times) .
+- when you choose an option you can enter the maximum number of accounts to add  .
 - in the second choice (**Add By your own keywords and interest**) you can type as much you want of keywords seprated by a plus sign (+)  .
 - You can play around with these arguments like making it headless or changing loging level it's on your court now  : 
-    - chrome_options.add_argument("--disable-logging")
-    - chrome_options.add_argument('log-level=3')
-    - chrome_options.add_argument("--headless")
-    - chrome_options.add_argument("--incognito")
-    - chrome_options.add_argument("--disable-extensions")
-    - chrome_options.add_argument("--disable-gpu")
-    - chrome_options.add_argument("--allow-running-insecure-content")
-    - chrome_options.add_argument("--ignore-certificate-errors")*
+    ![image](https://user-images.githubusercontent.com/11338137/47938918-73fe8980-dedd-11e8-8a29-25c2140bd7b5.png)
 
 PS :  Check the Code nothing Sent to me or a server if you have any doubt . Moreover , Don’t worry. Your password is totally strong enough lol 
 # ***Tested On Windows  with an English Linkedin  Only!***
 # First Option :
 ![1](https://user-images.githubusercontent.com/11338137/47062798-001b6c00-d1d0-11e8-94d6-4e27233d0e4b.png)
 # Second Option :
-![2](https://user-images.githubusercontent.com/11338137/47062796-ff82d580-d1cf-11e8-85c1-446e6e3b4a02.png)
+![2](https://user-images.githubusercontent.com/11338137/47938861-49accc00-dedd-11e8-9caf-f32072886bdd.png)
 # Third Option :
 ![3](https://user-images.githubusercontent.com/11338137/47062797-001b6c00-d1d0-11e8-906a-893573a9ab2a.png)
+
 # Todos :
  - *Bezaaaaaaf lol*
 
